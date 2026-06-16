@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PatinhasLar</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#fdf6f0;color:#222}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+:root{--L:#E8640A;--LE:#B54D06;--LC:#FDE8D5;--LM:#F5A56A}
+/* NAV */
+nav{background:#fff;border-bottom:2px solid var(--L);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.nav-logo{font-size:20px;font-weight:800;color:var(--L);display:flex;align-items:center;gap:6px}
+.nav-links{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.nb{background:transparent;border:none;padding:7px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#444;transition:.2s}
+.nb:hover{background:var(--LC);color:var(--L)}
+.nb.at{background:var(--L);color:#fff}
+.nb.dis{opacity:.4;cursor:not-allowed}
+.nb.login{background:var(--LE);color:#fff}
+.nb.login:hover{background:#8c3b04}
+.badge{display:inline-flex;align-items:center;justify-content:center;background:#e53e3e;color:#fff;font-size:10px;font-weight:800;width:16px;height:16px;border-radius:50%;margin-left:3px;vertical-align:middle}
+/* PÁGINAS */
+.pag{display:none}.pag.at{display:block}
+/* HERO */
+.hero{background:linear-gradient(135deg,#7a2e00,var(--L) 60%,var(--LM));color:#fff;text-align:center;padding:4rem 2rem 3rem}
+.hero h1{font-size:38px;font-weight:900;margin-bottom:.8rem;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hero p{font-size:17px;max-width:540px;margin:0 auto 2rem;opacity:.92;line-height:1.7}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-b{background:#fff;color:#7a2e00;border:none;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer}
+.btn-b:hover{background:var(--LC)}
+.btn-ob{background:transparent;color:#fff;border:2px solid #fff;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer}
+.btn-ob:hover{background:rgba(255,255,255,.15)}
+/* SEÇÕES */
+.sec{padding:3rem 2rem}.sec-alt{padding:3rem 2rem;background:#fff}
+.sec-t{font-size:24px;font-weight:800;color:var(--LE);margin-bottom:.4rem}
+.div{width:50px;height:4px;background:var(--L);border-radius:4px;margin:.4rem 0 1.5rem}
+/* GRIDS */
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+/* CARDS INFO */
+.ci{background:#fff;border:1px solid #f0ddd0;border-radius:14px;overflow:hidden;transition:.2s}
+.ci:hover{box-shadow:0 6px 20px rgba(232,100,10,.15)}
+.ci-img{width:100%;height:160px;background:var(--LC);display:flex;align-items:center;justify-content:center;font-size:58px}
+.ci-body{padding:1.1rem}
+.ci-body h3{font-size:16px;font-weight:700;color:var(--LE);margin-bottom:6px}
+.ci-body p{font-size:13px;color:#555;line-height:1.7}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.stat{text-align:center;color:#fff;padding:1.8rem;background:var(--LE)}
+.stat:nth-child(even){background:#7a2e00}
+.stat-n{font-size:34px;font-weight:900}
+.stat-l{font-size:12px;opacity:.85;margin-top:3px}
+/* HISTÓRIAS */
+.ch{background:var(--LC);border-radius:14px;padding:1.4rem;border-left:5px solid var(--L)}
+.ch .eg{font-size:44px;margin-bottom:10px}
+.ch h4{font-size:15px;font-weight:700;color:var(--LE);margin-bottom:6px}
+.ch p{font-size:13px;color:#444;line-height:1.7}
+/* DICAS */
+.dica{background:#fff;border-radius:12px;padding:1.1rem;border-top:4px solid var(--L);border:1px solid #f0ddd0}
+.dica h4{font-size:14px;font-weight:700;color:var(--LE);margin-bottom:5px}
+.dica p{font-size:13px;color:#555;line-height:1.6}
+/* FOOTER */
+.footer{background:var(--LE);color:#fff;padding:2.5rem 2rem;text-align:center}
+.footer h3{font-size:18px;font-weight:800;margin-bottom:1.2rem}
+.devs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.dev{background:rgba(255,255,255,.15);border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600}
+.footer-c{font-size:13px;opacity:.85;line-height:2}
+.footer-b{margin-top:1.2rem;font-size:11px;opacity:.6;border-top:1px solid rgba(255,255,255,.2);padding-top:.8rem}
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;align-items:center;justify-content:center}
+.mo.ab{display:flex}
+.md{background:#fff;border-radius:16px;padding:1.8rem;width:90%;max-width:480px;max-height:92vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.md h2{font-size:19px;font-weight:800;color:var(--LE);margin-bottom:1.1rem}
+.md-tabs{display:flex;gap:8px;margin-bottom:1.1rem}
+.tb{flex:1;padding:9px;border-radius:8px;border:2px solid #ddd;background:#f5f5f5;font-weight:700;font-size:13px;color:#555;cursor:pointer}
+.tb.at{border-color:var(--L);background:var(--LC);color:var(--LE)}
+.tc{display:none}.tc.at{display:block}
+.campo{margin-bottom:12px}
+.campo label{display:block;font-size:12px;font-weight:600;color:#444;margin-bottom:4px}
+.campo input,.campo select,.campo textarea{width:100%;padding:9px 11px;border:1.5px solid #ccc;border-radius:8px;font-size:13px;transition:.2s}
+.campo input:focus,.campo select:focus,.campo textarea:focus{outline:none;border-color:var(--L)}
+.campo textarea{min-height:72px;resize:vertical}
+.btn-L{background:var(--L);color:#fff;border:none;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:700;width:100%;cursor:pointer}
+.btn-L:hover{background:var(--LE)}
+.btn-g{background:var(--LE);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-g:hover{background:#8c3b04}
+.btn-c{background:#eee;color:#555;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+.btn-c:hover{background:#ddd}
+.btn-r{background:#e53e3e;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-r:hover{background:#c53030}
+.btn-v{background:#276749;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-v:hover{background:#1e5035}
+.md-x{float:right;background:none;border:none;font-size:20px;color:#aaa;cursor:pointer}
+.md-x:hover{color:#555}
+.err{color:#e53e3e;font-size:12px;margin-top:6px;text-align:center}
+.ok{color:var(--L);font-size:12px;margin-top:6px;text-align:center;font-weight:600}
+/* PAGE HEADER */
+.ph{background:#fdf6f0;border-bottom:1px solid #f0ddd0;padding:1.3rem 2rem}
+.ph h2{font-size:21px;font-weight:800;color:var(--LE)}
+.ph p{font-size:13px;color:#777;margin-top:3px}
+/* PROJETOS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;padding:1.5rem 2rem}
+.cp{background:#fff;border:1px solid #f0ddd0;border-radius:14px;overflow:hidden;cursor:pointer;transition:.2s}
+.cp:hover{box-shadow:0 6px 20px rgba(232,100,10,.2)}
+.cp-h{background:var(--LC);padding:1.1rem}
+.cp-h h3{font-size:17px;font-weight:800;color:var(--LE)}
+.cp-h p{font-size:12px;color:var(--LE);margin-top:3px}
+.cp-b{padding:.9rem 1.1rem}
+.cp-b p{font-size:12px;color:#555;margin-bottom:5px}
+.br{display:inline-block;background:#fde8d5;color:var(--LE);font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-top:5px}
+/* STARS */
+.stars{color:#f6c90e;font-size:16px;letter-spacing:2px}
+/* DETALHE */
+.dh{background:linear-gradient(135deg,#7a2e00,var(--L));color:#fff;padding:2.2rem 2rem}
+.dh h2{font-size:26px;font-weight:900}
+.dh p{opacity:.9;margin-top:5px}
+.db{padding:1.8rem}
+.ag{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.ca{background:#fff;border:1px solid #f0ddd0;border-radius:12px;overflow:hidden;position:relative}
+.af{width:100%;height:150px;background:var(--LC);display:flex;align-items:center;justify-content:center;font-size:52px}
+.af img{width:100%;height:100%;object-fit:cover}
+.afic{padding:.9rem}
+.afic h4{font-size:15px;font-weight:700;color:var(--LE);margin-bottom:5px}
+.fl{font-size:12px;color:#555;margin-bottom:3px}
+.fl span{font-weight:600;color:#222}
+.btn-ad{width:100%;margin-top:10px;background:var(--L);color:#fff;border:none;padding:9px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-ad:hover{background:var(--LE)}
+.av-l{background:#fff8e1;border:1px solid #f6c90e;border-radius:8px;padding:9px 12px;font-size:12px;color:#7a5c00;margin-top:8px}
+/* STATUS BADGE */
+.sb{position:absolute;top:8px;right:8px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+.sb.disp{background:#d4edda;color:#155724}
+.sb.proc{background:#fff3cd;color:#856404}
+.sb.adot{background:#f8d7da;color:#721c24}
+/* FAV BTN */
+.fav-btn{position:absolute;top:8px;left:8px;background:rgba(255,255,255,.9);border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* PERFIL */
+.pf-h{background:var(--LE);color:#fff;padding:2.2rem 2rem;display:flex;align-items:center;gap:1.3rem}
+.av-w{position:relative;width:84px;height:84px;flex-shrink:0}
+.av{width:84px;height:84px;border-radius:50%;background:var(--L);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#fff;overflow:hidden;border:3px solid rgba(255,255,255,.4)}
+.av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.av-eb{position:absolute;bottom:2px;right:2px;background:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.pf-h h2{font-size:22px;font-weight:800}
+.pf-h p{opacity:.85;font-size:13px;margin-top:3px}
+.pf-b{padding:1.8rem}
+.ps{background:#fff;border:1px solid #f0ddd0;border-radius:12px;padding:1.3rem;margin-bottom:1.3rem}
+.ps h3{font-size:16px;font-weight:700;color:var(--LE);margin-bottom:.9rem;border-bottom:2px solid var(--LC);padding-bottom:7px}
+.il{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid #f0f0f0}
+.il:last-child{border-bottom:none}
+.il .lb{color:#777}.il .vl{font-weight:600}
+.ac{display:flex;gap:8px;flex-wrap:wrap}
+/* NOTIFICAÇÕES */
+.ni{background:var(--LC);border-radius:10px;padding:11px 13px;border-left:4px solid var(--L);margin-bottom:8px}
+.ni.lida{background:#f7f7f7;border-left-color:#ccc;opacity:.7}
+.ni-h{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.ni strong{font-size:13px;color:var(--LE);display:block;margin-bottom:2px}
+.ni p{font-size:12px;color:#555;line-height:1.5}
+.ni small{font-size:11px;color:#999}
+.ni-btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+/* FAVORITOS */
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.fav-c{background:var(--LC);border-radius:12px;padding:1.1rem;text-align:center;position:relative}
+.fav-c .em{font-size:36px;margin-bottom:6px}
+.fav-c h4{font-size:14px;font-weight:700;color:var(--LE)}
+.fav-c p{font-size:12px;color:var(--LE);opacity:.8}
+.fav-rm{position:absolute;top:6px;right:6px;background:none;border:none;font-size:14px;cursor:pointer;opacity:.6}
+.fav-rm:hover{opacity:1}
+/* CHAT */
+.chat-w{display:flex;flex-direction:column;height:340px}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#fdf6f0;border-radius:10px;margin-bottom:8px}
+.msg{max-width:75%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.5}
+.msg.eu{background:var(--L);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.msg.outro{background:#fff;color:#333;align-self:flex-start;border:1px solid #f0ddd0;border-bottom-left-radius:3px}
+.msg small{display:block;font-size:10px;margin-top:3px;opacity:.7}
+.chat-input{display:flex;gap:8px}
+.chat-input input{flex:1;padding:9px 12px;border:1.5px solid #f0ddd0;border-radius:8px;font-size:13px}
+.chat-input input:focus{outline:none;border-color:var(--L)}
+.chat-send{background:var(--L);color:#fff;border:none;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer}
+/* GALERIA */
+.gal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.gal-c{background:#fff;border:1px solid #f0ddd0;border-radius:12px;overflow:hidden;text-align:center}
+.gal-img{width:100%;height:130px;object-fit:cover;background:var(--LC);display:flex;align-items:center;justify-content:center;font-size:44px}
+.gal-img img{width:100%;height:100%;object-fit:cover}
+.gal-info{padding:.8rem}
+.gal-info h4{font-size:13px;font-weight:700;color:var(--LE)}
+.gal-info p{font-size:11px;color:#777}
+/* EVENTOS */
+.ev-c{background:#fff;border:1px solid #f0ddd0;border-radius:12px;padding:1.1rem;display:flex;gap:1rem;align-items:flex-start}
+.ev-data{background:var(--L);color:#fff;border-radius:10px;padding:.5rem .8rem;text-align:center;min-width:56px;flex-shrink:0}
+.ev-data .dia{font-size:22px;font-weight:900;line-height:1}
+.ev-data .mes{font-size:11px;font-weight:600;opacity:.9}
+.ev-info h4{font-size:15px;font-weight:700;color:var(--LE);margin-bottom:4px}
+.ev-info p{font-size:12px;color:#555;line-height:1.6}
+.ev-tag{display:inline-block;background:var(--LC);color:var(--LE);font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;margin-top:5px}
+/* DOAÇÃO */
+.doe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.doe-c{background:#fff;border:1px solid #f0ddd0;border-radius:12px;padding:1.2rem;text-align:center;cursor:pointer;transition:.2s}
+.doe-c:hover{border-color:var(--L);background:var(--LC)}
+.doe-c.sel{border:2px solid var(--L);background:var(--LC)}
+.doe-c .valor{font-size:24px;font-weight:900;color:var(--LE);margin-bottom:4px}
+.doe-c p{font-size:12px;color:#777}
+/* AVALIAÇÕES */
+.aval-c{background:#fff;border:1px solid #f0ddd0;border-radius:12px;padding:1.1rem;margin-bottom:10px}
+.aval-c .aval-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.aval-c .aval-autor{font-size:13px;font-weight:700;color:var(--LE)}
+.aval-c p{font-size:13px;color:#555;line-height:1.6}
+.aval-c small{font-size:11px;color:#aaa}
+/* FILTROS */
+.filtros{display:flex;gap:8px;flex-wrap:wrap;padding:.8rem 2rem 0}
+.fb{background:#fff;border:1.5px solid #f0ddd0;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#555;cursor:pointer}
+.fb.at{background:var(--L);border-color:var(--L);color:#fff}
+.fb:hover:not(.at){border-color:var(--L);color:var(--LE)}
+/* UPLOAD */
+.up-a{border:2px dashed #ccc;border-radius:10px;padding:1.3rem;text-align:center;cursor:pointer;background:#fafafa;transition:.2s}
+.up-a:hover{border-color:var(--L)}
+.up-a input{display:none}
+.prev{width:100%;height:150px;object-fit:cover;border-radius:8px;margin-top:8px;display:none}
+.foto-in{display:none}
+/* ADOTADOS */
+.ad-c{background:var(--LC);border-radius:12px;padding:1.1rem;text-align:center}
+.ad-c .em{font-size:36px;margin-bottom:6px}
+.ad-c h4{font-size:14px;font-weight:700;color:var(--LE)}
+.ad-c p{font-size:12px;color:var(--LE);opacity:.8}
+/* QUIZ */
+.qopt{background:#fff;border:2px solid #f0ddd0;border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;color:#555;transition:.2s}
+.qopt:hover{border-color:var(--L);color:var(--LE);background:var(--LC)}
+.qopt.sel{border-color:var(--L);background:var(--L);color:#fff}
+.qres{background:var(--LC);border-left:4px solid var(--L);border-radius:10px;padding:1.1rem;margin-top:1rem;display:none}
+.qres h4{font-size:15px;font-weight:700;color:var(--LE);margin-bottom:5px}
+/* EMPTY */
+.empty{text-align:center;padding:2.5rem;color:#aaa}
+.empty .em{font-size:48px;margin-bottom:.8rem}
+.empty p{font-size:14px}
+/* STAR INPUT */
+.star-in{display:flex;gap:6px;font-size:28px;cursor:pointer;margin:6px 0}
+.star-in span{color:#ddd;transition:.2s}.star-in span.on{color:#f6c90e}
+/* PULSING */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.novo{animation:pulse 2s infinite}
+@media(max-width:640px){.hero h1{font-size:26px}nav{padding:0 .8rem}.nb{padding:5px 8px;font-size:11px}.stats{grid-template-columns:repeat(2,1fr)}.pf-h{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🐾 PatinhasLar</div>
+  <div class="nav-links">
+    <button class="nb at" id="bn-i" onclick="ir('inicio')">Início</button>
+    <button class="nb" id="bn-p" onclick="ir('projetos')">Projetos</button>
+    <button class="nb" id="bn-ev" onclick="ir('eventos')">📅 Eventos</button>
+    <button class="nb" id="bn-gal" onclick="ir('galeria')">📸 Galeria</button>
+    <button class="nb" id="bn-q" onclick="ir('quiz')">🐶 Qual pet?</button>
+    <button class="nb dis" id="bn-o" onclick="tentarOng()">Cadastrar ONG</button>
+    <button class="nb" id="bn-pf" onclick="ir('perfil')" style="display:none">👤 Perfil<span class="badge novo" id="nb-badge" style="display:none"></span></button>
+    <button class="nb login" id="btn-login" onclick="abrirLogin()">Entrar</button>
+  </div>
+</nav>
+
+<!-- ===== INÍCIO ===== -->
+<div class="pag at" id="pag-inicio">
+  <div class="hero">
+    <h1>🐾 PatinhasLar</h1>
+    <p>Amor de verdade não se compra, se adota.</p>
+    <div class="hero-btns">
+      <button class="btn-b" onclick="ir('projetos')">Ver Projetos das ONGs</button>
+      <button class="btn-ob" onclick="ir('quiz')">🐶 Qual pet é pra mim?</button>
+      <button class="btn-ob" onclick="abrirLogin()">Entrar / Cadastrar</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">142</div><div class="stat-l">Animais adotados</div></div>
+    <div class="stat"><div class="stat-n">28</div><div class="stat-l">Disponíveis agora</div></div>
+    <div class="stat"><div class="stat-n">12</div><div class="stat-l">ONGs parceiras</div></div>
+    <div class="stat"><div class="stat-n">5</div><div class="stat-l">Anos de história</div></div>
+  </div>
+  <div class="sec-alt">
+    <div class="sec-t">🏠 Quem Somos</div><div class="div"></div>
+    <div class="g3">
+      <div class="ci"><div class="ci-img">🌱</div><div class="ci-body"><h3>Nossa História</h3><p>Projeto dedicado ao resgate, cuidado e adoção de cães e gatos em situação de rua desde 2021.</p></div></div>
+      <div class="ci"><div class="ci-img">🎯</div><div class="ci-body"><h3>Nossa Missão</h3><p>Oferecer nova oportunidade para animais que enfrentam abandono, maus-tratos e vulnerabilidade.</p></div></div>
+      <div class="ci"><div class="ci-img">🤝</div><div class="ci-body"><h3>Como Atuamos</h3><p>Conectamos ONGs e protetores a famílias prontas para adotar com responsabilidade e amor.</p></div></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">❤️ Por que adotar?</div><div class="div"></div>
+    <div class="g3">
+      <div class="ci"><div class="ci-img">🐕</div><div class="ci-body"><h3>Salva uma vida</h3><p>Ao adotar, você retira um animal de risco, fome e exposição às intempéries. Cada adoção é um resgate real.</p></div></div>
+      <div class="ci"><div class="ci-img">😊</div><div class="ci-body"><h3>Faz bem para você</h3><p>Estudos mostram que conviver com animais reduz estresse e ansiedade. Um pet retribui com amor incondicional.</p></div></div>
+      <div class="ci"><div class="ci-img">🌍</div><div class="ci-body"><h3>Muda a sociedade</h3><p>Adotar é um ato de consciência. Você contribui para reduzir a superpopulação de animais nas ruas.</p></div></div>
+    </div>
+  </div>
+  <div class="sec-alt">
+    <div class="sec-t">📋 Como Funciona</div><div class="div"></div>
+    <div class="g4">
+      <div class="ci"><div class="ci-img">1️⃣</div><div class="ci-body"><h3>Cadastre-se</h3><p>Crie sua conta como adotante. Rápido, gratuito e seguro.</p></div></div>
+      <div class="ci"><div class="ci-img">2️⃣</div><div class="ci-body"><h3>Escolha um animal</h3><p>Navegue pelos projetos e veja as fichas completas.</p></div></div>
+      <div class="ci"><div class="ci-img">3️⃣</div><div class="ci-body"><h3>Quero adotar</h3><p>A ONG entrará em contato para agendar entrevista.</p></div></div>
+      <div class="ci"><div class="ci-img">4️⃣</div><div class="ci-body"><h3>Leve para casa!</h3><p>Animal vacinado, vermifugado e castrado no seu lar.</p></div></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">🌟 Histórias de Adoção</div><div class="div"></div>
+    <div class="g3">
+      <div class="ch"><div class="eg">🐶</div><h4>Princesa encontrou seu lar</h4><p>"Uma menina de 9 anos encontrou uma cadela abandonada amarrada em uma sacola. A família resgatou e adotou, chamando-a de Princesa." – <strong>Ana Clara</strong></p></div>
+      <div class="ch"><div class="eg">🐱</div><h4>Rajado: do hospital ao sofá</h4><p>"O gato Rajado ficou abandonado no HVU após se recuperar. A foto dele 'chorando' viralizou e dezenas se candidataram para adotá-lo." – <strong>Rafael M.</strong></p></div>
+      <div class="ch"><div class="eg">🐕</div><h4>Thor e os novos amigos</h4><p>"Adotamos o Thor para o nosso filho. Ele acabou fazendo companhia pra família inteira. Melhor decisão da nossa vida." – <strong>Família Sousa</strong></p></div>
+    </div>
+  </div>
+  <div class="sec-alt">
+    <div class="sec-t">🙌 Como Ajudar</div><div class="div"></div>
+    <div class="g4">
+      <div class="ci"><div class="ci-img">💰</div><div class="ci-body"><h3>Doação financeira</h3><p>Contribua para vacinas, castrações e alimentação dos animais resgatados.</p></div></div>
+      <div class="ci"><div class="ci-img">🏠</div><div class="ci-body"><h3>Lar temporário</h3><p>Abrigue um animal por algumas semanas enquanto encontramos o lar definitivo.</p></div></div>
+      <div class="ci"><div class="ci-img">🤲</div><div class="ci-body"><h3>Voluntariado</h3><p>Ajude em eventos de adoção, transporte ou nas redes sociais das ONGs.</p></div></div>
+      <div class="ci"><div class="ci-img">📢</div><div class="ci-body"><h3>Divulgação</h3><p>Compartilhe os animais disponíveis. Um compartilhamento pode começar uma adoção.</p></div></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">🩺 Cuidados e Dicas</div><div class="div"></div>
+    <div class="g4">
+      <div class="dica"><h4>🍚 Alimentação</h4><p>Ração de qualidade adequada à idade e porte. Sempre água fresca disponível.</p></div>
+      <div class="dica"><h4>💉 Vacinação</h4><p>Cães: V10 + antirrábica. Gatos: V4 + antirrábica. Cartão sempre em dia.</p></div>
+      <div class="dica"><h4>✂️ Castração</h4><p>Previne doenças e superpopulação. Muitas ONGs oferecem gratuitamente.</p></div>
+      <div class="dica"><h4>🏡 Adaptação</h4><p>Nos primeiros dias, dê espaço e tranquilidade. Ele precisa se sentir seguro.</p></div>
+      <div class="dica"><h4>🏃 Exercícios</h4><p>Cães precisam de passeios diários. Gatos se beneficiam de brinquedos.</p></div>
+      <div class="dica"><h4>🩻 Visita ao vet</h4><p>Consultas preventivas anuais. Já agende uma ao adotar para o check-up inicial.</p></div>
+    </div>
+  </div>
+  <div class="footer">
+    <h3>👨‍💻 Desenvolvedores</h3>
+    <div class="devs">
+      <div class="dev">Kerilany L. Fonseca</div><div class="dev">Iasmim Silva</div>
+      <div class="dev">Gabriele Silva</div><div class="dev">Adrian Sousa</div>
+    </div>
+    <div class="footer-c">📧 contato@patinhaslar.com.br &nbsp;|&nbsp; 📞 (88) 99999-0000 &nbsp;|&nbsp; 🌵 Boa Viagem – CE</div>
+    <div class="footer-b">© 2026 PatinhasLar · Todos os direitos reservados · Feito com ❤️ em Boa Viagem – CE</div>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div class="pag" id="pag-quiz">
+  <div class="ph"><h2>🐶 Qual pet combina com você?</h2><p>Responda e descubra o animal ideal para seu estilo de vida</p></div>
+  <div style="padding:2rem;max-width:680px">
+    <div id="quiz-c"></div>
+    <div id="quiz-res" class="qres"></div>
+    <div style="margin-top:1.2rem;display:flex;gap:8px" id="quiz-nav">
+      <button class="btn-c" id="qprev" onclick="qPrev()" style="display:none">← Anterior</button>
+      <button class="btn-L" id="qnext" onclick="qNext()" style="display:none;width:auto;padding:10px 22px">Próxima →</button>
+      <button class="btn-L" id="qver" onclick="ir('projetos')" style="display:none;width:auto;padding:10px 22px">Ver animais 🐾</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROJETOS ===== -->
+<div class="pag" id="pag-projetos">
+  <div class="ph"><h2>🏢 Projetos das ONGs</h2><p>Clique em um projeto para ver os animais disponíveis</p></div>
+  <div class="filtros">
+    <button class="fb at" onclick="filtProj('todos',this)">Todos</button>
+    <button class="fb" onclick="filtProj('cachorro',this)">🐶 Cães</button>
+    <button class="fb" onclick="filtProj('gato',this)">🐱 Gatos</button>
+    <button class="fb" onclick="filtProj('coelho',this)">🐰 Outros</button>
+  </div>
+  <div id="proj-lista" class="proj-grid"></div>
+  <div id="proj-vazio" class="empty" style="display:none"><div class="em">🏠</div><p>Nenhuma ONG cadastrada ainda.</p></div>
+</div>
+
+<!-- ===== DETALHE ===== -->
+<div class="pag" id="pag-det">
+  <div class="dh" id="det-h"></div>
+  <div class="db">
+    <div style="margin-bottom:1.3rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button class="btn-c" onclick="ir('projetos')">← Voltar</button>
+      <span id="det-edit"></span>
+      <span id="det-doe-btn"></span>
+    </div>
+    <!-- AVALIAÇÕES DA ONG -->
+    <div id="aval-secao" style="margin-bottom:1.5rem"></div>
+    <h3 style="font-size:17px;color:var(--LE);margin-bottom:1rem">🐾 Animais disponíveis</h3>
+    <div id="det-animais" class="ag"></div>
+    <div id="det-vazio" class="empty" style="display:none"><div class="em">🐾</div><p>Nenhum animal cadastrado ainda.</p></div>
+    <div id="add-anim-area" style="margin-top:1.3rem;display:none">
+      <button class="btn-L" style="width:auto;padding:10px 22px" onclick="abrirModalAnimal()">+ Adicionar animal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EVENTOS ===== -->
+<div class="pag" id="pag-eventos">
+  <div class="ph"><h2>📅 Eventos e Feiras</h2><p>Feiras de adoção, mutirões de castração e muito mais</p></div>
+  <div style="padding:1.5rem 2rem" id="eventos-lista"></div>
+</div>
+
+<!-- ===== GALERIA ===== -->
+<div class="pag" id="pag-galeria">
+  <div class="ph"><h2>📸 Galeria das Famílias</h2><p>Fotos enviadas por quem adotou pelo PatinhasLar</p></div>
+  <div style="padding:1.5rem 2rem">
+    <div id="gal-grid" class="gal-grid"></div>
+    <div style="margin-top:1.2rem" id="gal-add-area"></div>
+  </div>
+</div>
+
+<!-- ===== PERFIL DOADOR ===== -->
+<div class="pag" id="pag-pf-d">
+  <div class="pf-h">
+    <div class="av-w">
+      <div class="av" id="av-d"></div>
+      <button class="av-eb" onclick="document.getElementById('foto-d-in').click()">📷</button>
+      <input type="file" id="foto-d-in" accept="image/*" class="foto-in" onchange="upFoto(this,'d')"/>
+    </div>
+    <div><h2 id="pf-d-nome"></h2><p>👤 Perfil Doador</p></div>
+  </div>
+  <div class="pf-b">
+    <div class="ps"><h3>📋 Informações</h3><div id="info-d"></div></div>
+    <div class="ps">
+      <h3>🔔 Notificações <span class="badge" id="notif-badge-pf" style="display:none"></span></h3>
+      <div id="notif-lista"></div>
+      <div style="margin-top:8px"><button class="btn-c" onclick="marcarTodas()" style="font-size:12px">Marcar todas como lidas</button></div>
+    </div>
+    <div class="ps"><h3>💬 Chat com Adotantes</h3><div id="chat-d-lista"></div></div>
+    <div class="ps" id="ong-resumo-sec"><h3>🏢 Meu Projeto</h3><div id="ong-resumo"></div></div>
+    <div class="ps"><h3>⚙️ Ações</h3>
+      <div class="ac">
+        <button class="btn-L" style="width:auto;padding:9px 18px" onclick="irMeuProj()">Ver meu projeto</button>
+        <button class="btn-c" onclick="abrirOng()">Editar ONG</button>
+        <button class="btn-r" onclick="apagarProj()">Apagar projeto</button>
+        <button class="btn-c" onclick="sair()">Sair</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PERFIL ADOTANTE ===== -->
+<div class="pag" id="pag-pf-a">
+  <div class="pf-h">
+    <div class="av-w">
+      <div class="av" id="av-a"></div>
+      <button class="av-eb" onclick="document.getElementById('foto-a-in').click()">📷</button>
+      <input type="file" id="foto-a-in" accept="image/*" class="foto-in" onchange="upFoto(this,'a')"/>
+    </div>
+    <div><h2 id="pf-a-nome"></h2><p>💚 Perfil Adotante</p></div>
+  </div>
+  <div class="pf-b">
+    <div class="ps"><h3>📋 Informações</h3><div id="info-a"></div></div>
+    <div class="ps"><h3>❤️ Favoritos</h3><div id="fav-lista" class="fav-grid"></div><div id="fav-vazio" class="empty" style="display:none;padding:1rem"><div class="em" style="font-size:32px">❤️</div><p>Nenhum favorito ainda.</p></div></div>
+    <div class="ps"><h3>🐾 Animais Adotados</h3><div id="adot-lista" class="g4"></div><div id="adot-vazio" class="empty" style="display:none;padding:1rem"><div class="em" style="font-size:32px">🐾</div><p>Nenhuma adoção ainda.</p></div></div>
+    <div class="ps"><h3>💬 Minhas Conversas</h3><div id="chat-a-lista"></div></div>
+    <div class="ps"><h3>⚙️ Ações</h3><div class="ac"><button class="btn-c" onclick="sair()">Sair da conta</button></div></div>
+  </div>
+</div>
+
+<!-- ========= MODAIS ========= -->
+
+<!-- LOGIN -->
+<div class="mo" id="mo-login">
+  <div class="md">
+    <button class="md-x" onclick="fM('mo-login')">✕</button>
+    <h2>Entrar ou Cadastrar</h2>
+    <div class="md-tabs">
+      <button class="tb at" onclick="tab('login')">Entrar</button>
+      <button class="tb" onclick="tab('cadastro')">Cadastrar</button>
+    </div>
+    <div class="tc at" id="tc-login">
+      <div class="campo"><label>E-mail</label><input type="email" id="l-em" placeholder="seu@email.com"/></div>
+      <div class="campo"><label>Senha</label><input type="password" id="l-pw" placeholder="••••••"/></div>
+      <div id="l-err" class="err"></div><br>
+      <button class="btn-L" onclick="login()">Entrar</button>
+    </div>
+    <div class="tc" id="tc-cad">
+      <div class="campo"><label>Nome completo</label><input type="text" id="c-nome" placeholder="Seu nome"/></div>
+      <div class="campo"><label>Idade</label><input type="number" id="c-idade" placeholder="Ex: 25" min="18"/></div>
+      <div class="campo"><label>E-mail</label><input type="email" id="c-em" placeholder="seu@email.com"/></div>
+      <div class="campo"><label>Senha</label><input type="password" id="c-pw" placeholder="Mínimo 6 caracteres"/></div>
+      <div class="campo"><label>Tipo de conta</label>
+        <select id="c-tipo"><option value="adotante">Adotante</option><option value="doador">Doador (ONG/Protetor)</option></select>
+      </div>
+      <div id="c-err" class="err"></div><div id="c-ok" class="ok"></div><br>
+      <button class="btn-L" onclick="cadastro()">Criar conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- ONG -->
+<div class="mo" id="mo-ong">
+  <div class="md">
+    <button class="md-x" onclick="fM('mo-ong')">✕</button>
+    <h2 id="mo-ong-t">Cadastrar ONG</h2>
+    <div class="campo"><label>Nome da ONG</label><input type="text" id="o-nome" placeholder="Ex: Patinhas do Bem"/></div>
+    <div class="campo"><label>Descrição</label><textarea id="o-desc" placeholder="Missão da sua ONG..."></textarea></div>
+    <div class="campo"><label>Local / Região</label><input type="text" id="o-local" placeholder="Ex: Boa Viagem – CE"/></div>
+    <div class="campo"><label>Horário</label><input type="text" id="o-hor" placeholder="Ex: Seg-Sex 8h às 17h"/></div>
+    <div class="campo"><label>PIX para doações</label><input type="text" id="o-pix" placeholder="CPF, e-mail ou chave PIX"/></div>
+    <div id="o-err" class="err"></div><br>
+    <button class="btn-L" onclick="salvarOng()">Salvar ONG</button>
+  </div>
+</div>
+
+<!-- ANIMAL -->
+<div class="mo" id="mo-anim">
+  <div class="md">
+    <button class="md-x" onclick="fM('mo-anim')">✕</button>
+    <h2>Adicionar Animal</h2>
+    <div class="campo"><label>Foto do animal</label>
+      <div class="up-a" onclick="document.getElementById('anim-foto-in').click()">
+        <div id="up-ph">📷 Clique para selecionar uma foto</div>
+        <input type="file" id="anim-foto-in" accept="image/*" onchange="prevAnim(this)"/>
+        <img id="anim-prev" class="prev"/>
+      </div>
+    </div>
+    <div class="campo"><label>Nome</label><input type="text" id="a-nome" placeholder="Ex: Mel"/></div>
+    <div class="campo"><label>Espécie</label>
+      <select id="a-esp"><option value="cachorro">🐶 Cachorro</option><option value="gato">🐱 Gato</option><option value="coelho">🐰 Coelho</option><option value="outro">🐾 Outro</option></select>
+    </div>
+    <div class="campo"><label>Raça</label><input type="text" id="a-raca" placeholder="Ex: SRD, Labrador..."/></div>
+    <div class="campo"><label>Idade</label><input type="text" id="a-idade" placeholder="Ex: 2 anos..."/></div>
+    <div class="campo"><label>Sexo</label><select id="a-sexo"><option value="Macho">Macho</option><option value="Fêmea">Fêmea</option></select></div>
+    <div class="campo"><label>Temperamento</label><input type="text" id="a-temp" placeholder="Ex: Dócil, brincalhão..."/></div>
+    <div class="campo"><label>Saúde</label><input type="text" id="a-saude" placeholder="Ex: Vacinado, castrado..."/></div>
+    <div id="a-err" class="err"></div><br>
+    <button class="btn-L" onclick="salvarAnim()">Adicionar ao projeto</button>
+  </div>
+</div>
+
+<!-- ADOTAR -->
+<div class="mo" id="mo-adotar">
+  <div class="md">
+    <button class="md-x" onclick="fM('mo-adotar')">✕</button>
+    <h2>🐾 Quero adotar!</h2>
+    <p style="color:#555;font-size:13px;margin-bottom:1rem">Preencha o formulário e a ONG entrará em contato.</p>
+    <div class="campo"><label>Seu nome</label><input type="text" id="ad-nome"/></div>
+    <div class="campo"><label>Telefone</label><input type="text" id="ad-tel" placeholder="(00) 00000-0000"/></div>
+    <div class="campo"><label>Endereço / Cidade</label><input type="text" id="ad-end" placeholder="Ex: Rua X, 123 – Boa Viagem – CE"/></div>
+    <div class="campo"><label>Tem outros animais em casa?</label>
+      <select id="ad-outros"><option value="Não">Não</option><option value="Sim, cão">Sim, cão</option><option value="Sim, gato">Sim, gato</option><option value="Sim, mais de um">Sim, mais de um</option></select>
+    </div>
+    <div class="campo"><label>Por que quer adotar?</label><textarea id="ad-motivo" placeholder="Conte sobre você e seu lar..."></textarea></div>
+    <div id="ad-ok" class="ok" style="display:none">✅ Solicitação enviada! A ONG foi notificada.</div>
+    <br><button class="btn-L" onclick="enviarAdocao()">Enviar solicitação</button>
+  </div>
+</div>
+
+<!-- DOAÇÃO -->
+<div class="mo" id="mo-doe">
+  <div class="md">
+    <button class="md-x" onclick="fM('mo-doe')">✕</button>
+    <h2 id="mo-doe-t">💰 Fazer Doação</h2>
+    <p style="font-size:13px;color:#555;margin-bottom:1rem" id="mo-doe-desc"></p>
+    <p style="font-size:12px;font-weight:600;color:#444;margin-bottom:.8rem">Escolha um valor:</p>
+    <div class="doe-grid" id="doe-vals">
+      <div class="doe-c" onclick="selDoe(10,this)"><div class="valor">R$10</div><p>1 saquinho de ração</p></div>
+      <div class="doe-c" onclick="selDoe(25,this)"><div class="valor">R$25</div><p>Uma vacina avulsa</p></div>
+      <div class="doe-c" onclick="selDoe(50,this)"><div class="valor">R$50</div><p>Ração por uma semana</p></div>
+      <div class="doe-c" onclick="selDoe(100,this)"><div class="valor">R$100</div><p>Consulta veterinária</p></div>
+    </div>
+    <div class="campo" style="margin-top:1rem"><label>Ou digite outro valor (R$)</label><input type="number" id="doe-outro" placeholder="Ex: 30" min="1"/></div>
+    <div id="doe-pix-area" style="display:none;margin-top:1rem;background:var(--LC);border-radius:10px;padding:1rem;text-align:center">
+      <p style="font-size:13px;font-weight:700;color:var(--LE);margin-bottom:6px">🔑 Chave PIX da ONG:</p>
+      <p id="doe-pix-key" style="font-size:18px;font-weight:800;color:var(--LE)"></p>
+      <p style="font-size:12px;color:#777;margin-top:4px">Copie e cole no seu app bancário</p>
+      <button onclick="copiarPix()" style="margin-top:8px;background:var(--L);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">📋 Copiar chave</button>
+    </div>
+    <div id="doe-ok" class="ok" style="display:none;margin-top:8px"></div>
+    <br><button class="btn-L" onclick="confirmarDoe()">Confirmar doação</button>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div class="mo" id="mo-chat">
+  <div class="md" style="max-width:500px">
+    <button class="md-x" onclick="fM('mo-chat')">✕</button>
+    <h2 id="mo-chat-t">💬 Chat</h2>
+    <div class="chat-w">
+      <div class="chat-msgs" id="chat-msgs"></div>
+      <div class="chat-input">
+        <input type="text" id="chat-in" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter')enviarMsg()"/>
+        <button class="chat-send" onclick="enviarMsg()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AVALIAÇÃO -->
+<div class="mo" id="mo-aval">
+  <div class="md">
+    <button class="md-x" onclick="fM('mo-aval')">✕</button>
+    <h2>⭐ Avaliar ONG</h2>
+    <p style="font-size:13px;color:#555;margin-bottom:1rem" id="mo-aval-ong"></p>
+    <div class="campo"><label>Sua nota (clique nas estrelas)</label>
+      <div class="star-in" id="star-in">
+        <span onclick="setEstr(1)" onmouseover="hvEstr(1)" onmouseout="renderEstr()">★</span>
+        <span onclick="setEstr(2)" onmouseover="hvEstr(2)" onmouseout="renderEstr()">★</span>
+        <span onclick="setEstr(3)" onmouseover="hvEstr(3)" onmouseout="renderEstr()">★</span>
+        <span onclick="setEstr(4)" onmouseover="hvEstr(4)" onmouseout="renderEstr()">★</span>
+        <span onclick="setEstr(5)" onmouseover="hvEstr(5)" onmouseout="renderEstr()">★</span>
+      </div>
+    </div>
+    <div class="campo"><label>Seu comentário</label><textarea id="aval-coment" placeholder="Como foi sua experiência com esta ONG?"></textarea></div>
+    <div id="aval-err" class="err"></div>
+    <div id="aval-ok" class="ok"></div><br>
+    <button class="btn-L" onclick="salvarAval()">Enviar avaliação</button>
+  </div>
+</div>
+
+<!-- GALERIA ENVIAR -->
+<div class="mo" id="mo-gal">
+  <div class="md">
+    <button class="md-x" onclick="fM('mo-gal')">✕</button>
+    <h2>📸 Enviar Foto para a Galeria</h2>
+    <div class="campo"><label>Foto do seu pet adotado</label>
+      <div class="up-a" onclick="document.getElementById('gal-foto-in').click()">
+        <div id="gal-up-ph">📷 Clique para selecionar uma foto</div>
+        <input type="file" id="gal-foto-in" accept="image/*" onchange="prevGal(this)"/>
+        <img id="gal-prev" class="prev"/>
+      </div>
+    </div>
+    <div class="campo"><label>Nome do pet</label><input type="text" id="gal-nome" placeholder="Ex: Mel"/></div>
+    <div class="campo"><label>Mensagem (opcional)</label><input type="text" id="gal-msg" placeholder="Ex: 3 meses juntos e já não imagino sem ele!"/></div>
+    <div id="gal-err" class="err"></div>
+    <br><button class="btn-L" onclick="salvarGal()">Publicar na galeria</button>
+  </div>
+</div>
+
+<script>
+// ─── ESTADO ───
+let U=null, contas={}, filtAtivo='todos', ongVendo=null, animAdotInfo=null;
+let chatAberto=null; // {ongEmail, adotEmail}
+let estrSel=0, ongAvalEmail=null;
+let doeVal=0, doeOngEmail=null;
+
+// ─── EVENTOS FIXOS ───
+const EVENTOS=[
+  {dia:'20',mes:'JUL',titulo:'Feira de Adoção – Praça Central',desc:'Venha conhecer mais de 30 animais disponíveis para adoção. Cães, gatos e coelhos estarão presentes com suas fichas completas.',local:'Praça Matriz, Boa Viagem – CE',tag:'🐾 Adoção'},
+  {dia:'27',mes:'JUL',titulo:'Mutirão de Castração Gratuita',desc:'Parceria com o CRMV-CE. Atendimento gratuito para cães e gatos de famílias de baixa renda. Vagas limitadas!',local:'UVS Municipal, Boa Viagem – CE',tag:'✂️ Saúde'},
+  {dia:'03',mes:'AGO',titulo:'Palestra: Bem-estar Animal',desc:'Com o Médico Veterinário Dr. Carlos Alves. Tema: "Adoção responsável e saúde preventiva do seu pet".',local:'Sala de reuniões da OAB-CE (online também)',tag:'📚 Educação'},
+  {dia:'10',mes:'AGO',titulo:'Campanha de Vacinação Antirrábica',desc:'Vacinação gratuita para cães e gatos. Traga o cartão de vacinas anterior se tiver.',local:'UBS Boa Viagem, das 8h às 12h',tag:'💉 Saúde'},
+  {dia:'24',mes:'AGO',titulo:'Bazar Beneficente Patinhas',desc:'Venda de roupas, artesanatos e comidas. Toda a renda vai para vacinas e ração dos animais resgatados.',local:'Sede PatinhasLar, Boa Viagem – CE',tag:'💰 Arrecadação'},
+];
+
+// GALERIA INICIAL
+let galeria=[
+  {nome:'Pretinha',msg:'6 meses juntos e ela já é dona da casa 😂',autor:'Maria S.',foto:''},
+  {nome:'Bob',msg:'Bob chegou medroso, hoje late de alegria!',autor:'João P.',foto:''},
+  {nome:'Nina',msg:'A Nina nos escolheu. Pura gratidão! ❤️',autor:'Família Rocha',foto:''},
+];
+
+// ─── NAV ───
+function ir(p){
+  document.querySelectorAll('.pag').forEach(x=>x.classList.remove('at'));
+  document.querySelectorAll('.nb').forEach(x=>x.classList.remove('at'));
+  const mp={'inicio':'pag-inicio','quiz':'pag-quiz','projetos':'pag-projetos','detalhe':'pag-det',
+            'eventos':'pag-eventos','galeria':'pag-galeria',
+            'perfil':U?(U.tipo==='doador'?'pag-pf-d':'pag-pf-a'):'pag-inicio'};
+  const mn={'inicio':'bn-i','projetos':'bn-p','eventos':'bn-ev','galeria':'bn-gal','quiz':'bn-q'};
+  if(p==='perfil'&&!U){abrirLogin();return;}
+  document.getElementById(mp[p]||'pag-inicio').classList.add('at');
+  if(mn[p])document.getElementById(mn[p]).classList.add('at');
+  if(p==='projetos')renderProj();
+  if(p==='quiz')initQuiz();
+  if(p==='eventos')renderEventos();
+  if(p==='galeria')renderGaleria();
+  if(p==='perfil'){if(U.tipo==='doador')renderPfD();else renderPfA();}
+  window.scrollTo(0,0);
+}
+
+// ─── LOGIN ───
+function abrirLogin(){document.getElementById('mo-login').classList.add('ab')}
+function fM(id){document.getElementById(id).classList.remove('ab')}
+function tab(t){
+  document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('at',(t==='login'&&i===0)||(t==='cadastro'&&i===1)));
+  document.getElementById('tc-login').classList.toggle('at',t==='login');
+  document.getElementById('tc-cad').classList.toggle('at',t==='cadastro');
+}
+function cadastro(){
+  const nome=document.getElementById('c-nome').value.trim(),idade=document.getElementById('c-idade').value.trim(),
+        em=document.getElementById('c-em').value.trim().toLowerCase(),pw=document.getElementById('c-pw').value,
+        tipo=document.getElementById('c-tipo').value;
+  const err=document.getElementById('c-err'),ok=document.getElementById('c-ok');
+  err.textContent='';ok.textContent='';
+  if(!nome||!em||!pw||!idade){err.textContent='Preencha todos os campos.';return;}
+  if(pw.length<6){err.textContent='Senha mínimo 6 caracteres.';return;}
+  if(contas[em]){err.textContent='E-mail já cadastrado.';return;}
+  contas[em]={nome,idade,em,pw,tipo,desde:new Date().toLocaleDateString('pt-BR'),
+    ong:null,animais:[],adotados:[],notifs:[],foto:null,favs:[],chats:{},avals:[]};
+  ok.textContent='Conta criada! Faça login.';
+  setTimeout(()=>tab('login'),1500);
+}
+function login(){
+  const em=document.getElementById('l-em').value.trim().toLowerCase(),pw=document.getElementById('l-pw').value;
+  const err=document.getElementById('l-err');err.textContent='';
+  if(!contas[em]){err.textContent='E-mail não encontrado.';return;}
+  if(contas[em].pw!==pw){err.textContent='Senha incorreta.';return;}
+  U=contas[em];fM('mo-login');updNav();ir('perfil');
+}
+function updNav(){
+  const ok=!!U;
+  document.getElementById('btn-login').style.display=ok?'none':'';
+  document.getElementById('bn-pf').style.display=ok?'':'none';
+  const bo=document.getElementById('bn-o');
+  ok&&U.tipo==='doador'?bo.classList.remove('dis'):bo.classList.add('dis');
+  updBadge();
+}
+function updBadge(){
+  if(!U||U.tipo!=='doador')return;
+  const b=document.getElementById('nb-badge');
+  const n=(U.notifs||[]).filter(x=>!x.lida).length;
+  if(n>0){b.textContent=n;b.style.display='';}else b.style.display='none';
+}
+function sair(){if(!confirm('Sair da conta?'))return;U=null;updNav();ir('inicio');}
+function tentarOng(){
+  if(!U){alert('Faça login como doador.');return;}
+  if(U.tipo!=='doador'){alert('Apenas doadores podem cadastrar ONGs.');return;}
+  abrirOng();
+}
+
+// ─── FOTO PERFIL ───
+function upFoto(inp,tipo){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    U.foto=e.target.result;
+    document.getElementById('av-'+tipo).innerHTML=`<img src="${e.target.result}"/>`;
+  };r.readAsDataURL(f);
+}
+
+// ─── ONG ───
+function abrirOng(){
+  if(U&&U.ong){
+    document.getElementById('o-nome').value=U.ong.nome;
+    document.getElementById('o-desc').value=U.ong.desc;
+    document.getElementById('o-local').value=U.ong.local;
+    document.getElementById('o-hor').value=U.ong.hor;
+    document.getElementById('o-pix').value=U.ong.pix||'';
+    document.getElementById('mo-ong-t').textContent='Editar ONG';
+  }else{
+    ['o-nome','o-desc','o-local','o-hor','o-pix'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('mo-ong-t').textContent='Cadastrar ONG';
+  }
+  document.getElementById('o-err').textContent='';
+  document.getElementById('mo-ong').classList.add('ab');
+}
+function salvarOng(){
+  const nome=document.getElementById('o-nome').value.trim(),desc=document.getElementById('o-desc').value.trim(),
+        local=document.getElementById('o-local').value.trim(),hor=document.getElementById('o-hor').value.trim(),
+        pix=document.getElementById('o-pix').value.trim();
+  if(!nome||!desc||!local||!hor){document.getElementById('o-err').textContent='Preencha todos os campos.';return;}
+  U.ong={nome,desc,local,hor,pix};
+  if(!U.animais)U.animais=[];
+  fM('mo-ong');ir('perfil');
+}
+function apagarProj(){
+  if(!confirm('Apagar projeto e todos os animais?'))return;
+  U.ong=null;U.animais=[];ir('perfil');
+}
+function irMeuProj(){U&&U.ong?abrirDet(U.em):abrirOng();}
+
+// ─── NOTIFICAÇÕES ───
+function addNotif(doadorEm,titulo,msg){
+  const d=contas[doadorEm];if(!d)return;
+  if(!d.notifs)d.notifs=[];
+  d.notifs.unshift({id:Date.now(),titulo,msg,lida:false,hora:new Date().toLocaleString('pt-BR',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'2-digit'})});
+  if(U&&U.em===doadorEm)updBadge();
+}
+function renderNotifs(){
+  const el=document.getElementById('notif-lista');
+  const b=document.getElementById('notif-badge-pf');
+  const ns=U.notifs||[];
+  const nl=ns.filter(x=>!x.lida).length;
+  if(nl>0){b.textContent=nl;b.style.display='';}else b.style.display='none';
+  if(ns.length===0){el.innerHTML='<p style="color:#aaa;font-size:13px">Nenhuma notificação ainda.</p>';return;}
+  el.innerHTML=ns.map(n=>`
+    <div class="ni ${n.lida?'lida':''}">
+      <div class="ni-h">
+        <div>
+          <strong>${n.titulo}</strong>
+          <p>${n.msg}</p>
+          <small>${n.hora}</small>
+        </div>
+      </div>
+      ${!n.lida?`<div class="ni-btns">
+        <button class="btn-v" style="font-size:12px;padding:6px 12px" onclick="aceitarAdocao(${n.id})">✅ Aceitar</button>
+        <button class="btn-r" style="font-size:12px;padding:6px 12px" onclick="recusarAdocao(${n.id})">❌ Recusar</button>
+        <button class="btn-c" style="font-size:12px;padding:6px 12px" onclick="marcarLida(${n.id})">Lida</button>
+      </div>`:''}
+    </div>`).join('');
+}
+function marcarLida(id){
+  const n=(U.notifs||[]).find(x=>x.id===id);
+  if(n)n.lida=true;renderNotifs();updBadge();
+}
+function marcarTodas(){(U.notifs||[]).forEach(n=>n.lida=true);renderNotifs();updBadge();}
+function aceitarAdocao(id){
+  const n=(U.notifs||[]).find(x=>x.id===id);
+  if(!n)return;n.lida=true;
+  // Extrair nome do adotante da msg para abrir chat
+  alert('✅ Adoção aceita! Você pode contatar o adotante pelo chat.');
+  renderNotifs();updBadge();
+}
+function recusarAdocao(id){
+  const n=(U.notifs||[]).find(x=>x.id===id);
+  if(!n)return;
+  if(!confirm('Tem certeza que deseja recusar esta solicitação?'))return;
+  n.lida=true;n.titulo='❌ Recusado – '+n.titulo;
+  renderNotifs();updBadge();
+}
+
+// ─── PROJETOS ───
+function getDoadores(){return Object.values(contas).filter(c=>c.tipo==='doador'&&c.ong);}
+function filtProj(t,btn){
+  filtAtivo=t;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('at'));
+  btn.classList.add('at');renderProj();
+}
+function renderProj(){
+  const el=document.getElementById('proj-lista'),vz=document.getElementById('proj-vazio');
+  let ds=getDoadores();
+  if(filtAtivo!=='todos')ds=ds.filter(d=>(d.animais||[]).some(a=>a.esp===filtAtivo));
+  if(ds.length===0){el.innerHTML='';vz.style.display='';return;}
+  vz.style.display='none';
+  el.innerHTML=ds.map(d=>{
+    const avals=d.avals||[];
+    const med=avals.length?Math.round(avals.reduce((s,a)=>s+a.nota,0)/avals.length):0;
+    const stars='⭐'.repeat(med)+'☆'.repeat(5-med);
+    return`<div class="cp" onclick="abrirDet('${d.em}')">
+      <div class="cp-h"><h3>🏢 ${d.ong.nome}</h3><p>${d.nome}</p></div>
+      <div class="cp-b">
+        <p>${d.ong.desc.substring(0,80)}${d.ong.desc.length>80?'...':''}</p>
+        <p>⏰ ${d.ong.hor}</p>
+        <p>🐾 ${(d.animais||[]).length} animal(is)</p>
+        ${avals.length?`<p class="stars">${stars} <small style="color:#888;font-size:11px">(${avals.length})</small></p>`:'<p style="font-size:11px;color:#aaa">Sem avaliações ainda</p>'}
+        <span class="br">📍 ${d.ong.local}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── DETALHE ───
+function abrirDet(em){
+  const d=contas[em];if(!d)return;
+  ongVendo=em;
+  const ehD=U&&U.em===em;
+  document.getElementById('det-h').innerHTML=`
+    <h2>🏢 ${d.ong.nome}</h2>
+    <p>👤 ${d.nome} &nbsp;·&nbsp; 📍 ${d.ong.local} &nbsp;·&nbsp; ⏰ ${d.ong.hor}</p>
+    <p style="margin-top:7px;opacity:.85">${d.ong.desc}</p>`;
+  document.getElementById('det-edit').innerHTML=ehD?`<button class="btn-c" onclick="abrirOng()">✏️ Editar ONG</button>`:'';
+  document.getElementById('det-doe-btn').innerHTML=d.ong.pix?`<button class="btn-g" onclick="abrirDoe('${em}')">💰 Fazer Doação</button>`:'';
+  document.getElementById('add-anim-area').style.display=ehD?'':'none';
+  renderAvals(d,ehD);
+  renderAnimDet(d,ehD);
+  ir('detalhe');
+}
+function renderAnimDet(d,ehD){
+  const an=d.animais||[];
+  const el=document.getElementById('det-animais'),vz=document.getElementById('det-vazio');
+  if(an.length===0){el.innerHTML='';vz.style.display='';return;}
+  vz.style.display='none';
+  const pA=U&&U.tipo==='adotante';
+  const isFav=(esp,nome)=>U&&(U.favs||[]).some(f=>f.nome===nome&&f.ong===d.ong.nome);
+  el.innerHTML=an.map((a,i)=>{
+    const sb=a.status==='adotado'?'adot':a.status==='processo'?'proc':'disp';
+    const sbT=a.status==='adotado'?'Adotado':a.status==='processo'?'Em processo':'Disponível';
+    const fav=isFav(a.esp,a.nome);
+    return`<div class="ca">
+      <div class="af">${a.foto?`<img src="${a.foto}"/>`:''}${!a.foto?emojiE(a.esp):''}</div>
+      <span class="sb ${sb}">${sbT}</span>
+      ${pA?`<button class="fav-btn" onclick="toggleFav('${a.nome}','${a.esp}','${d.ong.nome}',event)">${fav?'❤️':'🤍'}</button>`:''}
+      <div class="afic">
+        <h4>${a.nome}</h4>
+        <div class="fl">Espécie: <span>${a.esp}</span></div>
+        <div class="fl">Raça: <span>${a.raca}</span></div>
+        <div class="fl">Idade: <span>${a.idade}</span></div>
+        <div class="fl">Sexo: <span>${a.sexo}</span></div>
+        <div class="fl">Temp.: <span>${a.temp}</span></div>
+        <div class="fl">Saúde: <span>${a.saude}</span></div>
+        ${pA&&a.status!=='adotado'?`<button class="btn-ad" onclick="abrirAdotar(${i},'${d.em}')">🐾 Quero adotar</button>`:''}
+        ${!U?`<div class="av-l">⚠️ Faça login para solicitar adoção.</div>`:''}
+        ${U&&U.tipo==='doador'&&!ehD?`<div class="av-l">ℹ️ Apenas adotantes podem solicitar adoção.</div>`:''}
+        ${ehD?`<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+          <select onchange="mudarStatus(${i},this.value)" style="flex:1;padding:6px;border:1.5px solid #ccc;border-radius:6px;font-size:12px">
+            <option value="disponivel"${(a.status||'disponivel')==='disponivel'?' selected':''}>Disponível</option>
+            <option value="processo"${a.status==='processo'?' selected':''}>Em processo</option>
+            <option value="adotado"${a.status==='adotado'?' selected':''}>Adotado</option>
+          </select>
+          <button class="btn-r" style="padding:6px 12px;font-size:12px;border-radius:6px" onclick="rmAnim(${i})">🗑</button>
+        </div>`:''}
+      </div></div>`;
+  }).join('');
+}
+function mudarStatus(i,val){
+  const d=contas[ongVendo];d.animais[i].status=val;
+  renderAnimDet(d,U&&U.em===ongVendo);
+}
+function rmAnim(i){
+  if(!confirm('Remover este animal?'))return;
+  contas[ongVendo].animais.splice(i,1);
+  renderAnimDet(contas[ongVendo],true);
+}
+function emojiE(e){return e==='cachorro'?'🐶':e==='gato'?'🐱':e==='coelho'?'🐰':'🐾';}
+
+// ─── FAVORITOS ───
+function toggleFav(nome,esp,ong,ev){
+  ev.stopPropagation();
+  if(!U||U.tipo!=='adotante')return;
+  if(!U.favs)U.favs=[];
+  const idx=U.favs.findIndex(f=>f.nome===nome&&f.ong===ong);
+  if(idx>=0)U.favs.splice(idx,1);
+  else U.favs.push({nome,esp,ong});
+  renderAnimDet(contas[ongVendo],U&&U.em===ongVendo);
+}
+
+// ─── ANIMAL ───
+function abrirModalAnimal(){
+  ['a-nome','a-raca','a-idade','a-temp','a-saude'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('a-esp').value='cachorro';
+  document.getElementById('a-sexo').value='Macho';
+  document.getElementById('anim-prev').style.display='none';
+  document.getElementById('up-ph').style.display='';
+  document.getElementById('a-err').textContent='';
+  document.getElementById('mo-anim').classList.add('ab');
+}
+function prevAnim(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const img=document.getElementById('anim-prev');
+    img.src=e.target.result;img.style.display='block';
+    document.getElementById('up-ph').style.display='none';
+  };r.readAsDataURL(f);
+}
+function salvarAnim(){
+  const nome=document.getElementById('a-nome').value.trim(),esp=document.getElementById('a-esp').value,
+        raca=document.getElementById('a-raca').value.trim(),idade=document.getElementById('a-idade').value.trim(),
+        sexo=document.getElementById('a-sexo').value,temp=document.getElementById('a-temp').value.trim(),
+        saude=document.getElementById('a-saude').value.trim(),foto=document.getElementById('anim-prev').src||'';
+  if(!nome||!raca||!idade||!temp||!saude){document.getElementById('a-err').textContent='Preencha todos os campos.';return;}
+  if(!U.animais)U.animais=[];
+  U.animais.push({nome,esp,raca,idade,sexo,temp,saude,foto:foto.startsWith('data:')?foto:'',status:'disponivel'});
+  fM('mo-anim');renderAnimDet(U,true);
+}
+
+// ─── ADOÇÃO ───
+function abrirAdotar(ai,doe){
+  if(!U||U.tipo!=='adotante')return;
+  animAdotInfo={ai,doe};
+  document.getElementById('ad-nome').value=U.nome;
+  ['ad-tel','ad-end','ad-motivo'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ad-outros').value='Não';
+  document.getElementById('ad-ok').style.display='none';
+  document.getElementById('mo-adotar').classList.add('ab');
+}
+function enviarAdocao(){
+  if(!animAdotInfo)return;
+  const{ai,doe}=animAdotInfo;
+  const anim=contas[doe].animais[ai];
+  const tel=document.getElementById('ad-tel').value.trim();
+  const end=document.getElementById('ad-end').value.trim();
+  const outros=document.getElementById('ad-outros').value;
+  const motivo=document.getElementById('ad-motivo').value.trim();
+  if(!tel||!motivo){document.getElementById('ad-ok').textContent='';
+    const err=document.createElement('p');err.style.color='#e53e3e';err.textContent='Preencha telefone e motivação.';return;}
+  // Registra no adotado
+  if(!U.adotados)U.adotados=[];
+  if(!U.adotados.find(x=>x.nome===anim.nome&&x.ong===contas[doe].ong.nome))
+    U.adotados.push({nome:anim.nome,esp:anim.esp,ong:contas[doe].ong.nome});
+  // Muda status para em processo
+  anim.status='processo';
+  // Notifica doador com TODOS os dados
+  addNotif(doe,
+    `🐾 Solicitação de adoção: ${anim.nome}`,
+    `<b>Adotante:</b> ${U.nome}<br>
+     <b>Contato:</b> ${tel}<br>
+     <b>Endereço:</b> ${end||'Não informado'}<br>
+     <b>Outros animais em casa:</b> ${outros}<br>
+     <b>Motivação:</b> ${motivo}`
+  );
+  // Inicia chat entre adotante e ONG
+  const chatKey=`${doe}__${U.em}`;
+  if(!contas[doe].chats)contas[doe].chats={};
+  if(!contas[doe].chats[chatKey])contas[doe].chats[chatKey]={adotNome:U.nome,adotEm:U.em,msgs:[]};
+  if(!U.chats)U.chats={};
+  if(!U.chats[chatKey])U.chats[chatKey]={ongNome:contas[doe].ong.nome,ongEm:doe,msgs:contas[doe].chats[chatKey].msgs};
+  document.getElementById('ad-ok').style.display='';
+  setTimeout(()=>fM('mo-adotar'),2500);
+}
+
+// ─── CHAT ───
+function abrirChat(chatKey,ongEm,adotEm){
+  chatAberto={chatKey,ongEm,adotEm};
+  const ong=contas[ongEm];
+  const adot=contas[adotEm];
+  document.getElementById('mo-chat-t').textContent=U.em===ongEm?`💬 Chat com ${adot?adot.nome:'Adotante'}`:`💬 Chat com ${ong?ong.ong.nome:'ONG'}`;
+  renderMsgs();
+  document.getElementById('mo-chat').classList.add('ab');
+}
+function renderMsgs(){
+  if(!chatAberto)return;
+  const{chatKey,ongEm}=chatAberto;
+  const cD=contas[ongEm];
+  const msgs=(cD&&cD.chats&&cD.chats[chatKey])?cD.chats[chatKey].msgs:[];
+  const el=document.getElementById('chat-msgs');
+  if(msgs.length===0){el.innerHTML='<p style="color:#aaa;font-size:12px;text-align:center;padding:1rem">Nenhuma mensagem ainda. Diga olá!</p>';return;}
+  el.innerHTML=msgs.map(m=>`
+    <div class="msg ${m.de===U.em?'eu':'outro'}">
+      ${m.texto}<small>${m.hora}</small>
+    </div>`).join('');
+  el.scrollTop=el.scrollHeight;
+}
+function enviarMsg(){
+  if(!chatAberto)return;
+  const inp=document.getElementById('chat-in');
+  const txt=inp.value.trim();if(!txt)return;
+  const{chatKey,ongEm}=chatAberto;
+  const cD=contas[ongEm];
+  if(!cD||!cD.chats||!cD.chats[chatKey])return;
+  const msg={de:U.em,texto:txt,hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})};
+  cD.chats[chatKey].msgs.push(msg);
+  inp.value='';renderMsgs();
+}
+function renderChatLista(tipo){
+  // tipo: 'd' = doador, 'a' = adotante
+  const elId=tipo==='d'?'chat-d-lista':'chat-a-lista';
+  const el=document.getElementById(elId);
+  if(!el)return;
+  if(tipo==='d'){
+    const chats=U.chats||{};
+    const keys=Object.keys(chats);
+    if(keys.length===0){el.innerHTML='<p style="color:#aaa;font-size:13px">Nenhuma conversa ainda.</p>';return;}
+    el.innerHTML=keys.map(k=>{
+      const c=chats[k];
+      const d=contas[k.split('__')[1]];
+      return`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--LC);border-radius:8px;margin-bottom:8px">
+        <div><strong style="font-size:13px;color:var(--LE)">${c.adotNome}</strong><p style="font-size:11px;color:#777">${c.msgs.length} mensagem(s)</p></div>
+        <button class="btn-c" style="font-size:12px;padding:6px 12px" onclick="abrirChat('${k}','${U.em}','${k.split('__')[1]}')">Abrir chat</button>
+      </div>`;
+    }).join('');
+  }else{
+    const chats=U.chats||{};
+    const keys=Object.keys(chats);
+    if(keys.length===0){el.innerHTML='<p style="color:#aaa;font-size:13px">Nenhuma conversa ainda.</p>';return;}
+    el.innerHTML=keys.map(k=>{
+      const c=chats[k];
+      return`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--LC);border-radius:8px;margin-bottom:8px">
+        <div><strong style="font-size:13px;color:var(--LE)">${c.ongNome}</strong><p style="font-size:11px;color:#777">${c.msgs.length} mensagem(s)</p></div>
+        <button class="btn-c" style="font-size:12px;padding:6px 12px" onclick="abrirChat('${k}','${k.split('__')[0]}','${U.em}')">Abrir chat</button>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ─── AVALIAÇÕES ───
+function renderAvals(d,ehD){
+  const sec=document.getElementById('aval-secao');
+  const avals=d.avals||[];
+  const med=avals.length?(avals.reduce((s,a)=>s+a.nota,0)/avals.length).toFixed(1):null;
+  const podeAvaliar=U&&U.tipo==='adotante'&&!ehD;
+  sec.innerHTML=`
+    <div class="ps" style="margin-bottom:0">
+      <h3 style="font-size:16px;font-weight:700;color:var(--LE);margin-bottom:.8rem;border-bottom:2px solid var(--LC);padding-bottom:6px">
+        ⭐ Avaliações ${med?`<span style="font-size:14px;color:#888">(${med}/5 · ${avals.length} avaliação(ões))</span>`:''}
+      </h3>
+      ${avals.length===0?'<p style="color:#aaa;font-size:13px">Nenhuma avaliação ainda.</p>':''}
+      ${avals.map(a=>`
+        <div class="aval-c">
+          <div class="aval-h">
+            <span class="aval-autor">${a.autor}</span>
+            <span class="stars" style="font-size:14px">${'⭐'.repeat(a.nota)}${'☆'.repeat(5-a.nota)}</span>
+          </div>
+          <p>${a.coment}</p>
+          <small>${a.data}</small>
+        </div>`).join('')}
+      ${podeAvaliar?`<button class="btn-c" style="margin-top:8px;font-size:13px" onclick="abrirAval('${d.em}')">⭐ Avaliar esta ONG</button>`:''}
+      ${!U?`<div class="av-l" style="margin-top:8px">⚠️ Faça login para avaliar.</div>`:''}
+    </div>`;
+}
+function abrirAval(em){
+  ongAvalEmail=em;estrSel=0;
+  document.getElementById('aval-coment').value='';
+  document.getElementById('aval-err').textContent='';
+  document.getElementById('aval-ok').textContent='';
+  document.getElementById('mo-aval-ong').textContent=`ONG: ${contas[em].ong.nome}`;
+  renderEstr();
+  document.getElementById('mo-aval').classList.add('ab');
+}
+function setEstr(n){estrSel=n;renderEstr();}
+function hvEstr(n){document.querySelectorAll('#star-in span').forEach((s,i)=>s.classList.toggle('on',i<n));}
+function renderEstr(){document.querySelectorAll('#star-in span').forEach((s,i)=>s.classList.toggle('on',i<estrSel));}
+function salvarAval(){
+  const coment=document.getElementById('aval-coment').value.trim();
+  if(!estrSel){document.getElementById('aval-err').textContent='Selecione uma nota.';return;}
+  if(!coment){document.getElementById('aval-err').textContent='Escreva um comentário.';return;}
+  const d=contas[ongAvalEmail];
+  if(!d.avals)d.avals=[];
+  d.avals.push({autor:U.nome,nota:estrSel,coment,data:new Date().toLocaleDateString('pt-BR')});
+  document.getElementById('aval-ok').textContent='✅ Avaliação enviada! Obrigado.';
+  setTimeout(()=>{fM('mo-aval');renderAvals(d,false);},1800);
+}
+
+// ─── DOAÇÃO ───
+function abrirDoe(em){
+  doeOngEmail=em;doeVal=0;
+  document.querySelectorAll('.doe-c').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('doe-outro').value='';
+  document.getElementById('doe-pix-area').style.display='none';
+  document.getElementById('doe-ok').style.display='none';
+  const d=contas[em];
+  document.getElementById('mo-doe-t').textContent=`💰 Doar para ${d.ong.nome}`;
+  document.getElementById('mo-doe-desc').textContent=`Sua doação ajuda diretamente os animais resgatados pela ${d.ong.nome}.`;
+  document.getElementById('mo-doe').classList.add('ab');
+}
+function selDoe(val,el){
+  doeVal=val;document.getElementById('doe-outro').value='';
+  document.querySelectorAll('.doe-c').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function confirmarDoe(){
+  const outro=parseFloat(document.getElementById('doe-outro').value)||0;
+  const v=outro>0?outro:doeVal;
+  if(!v||v<=0){alert('Selecione ou digite um valor para doação.');return;}
+  const d=contas[doeOngEmail];
+  document.getElementById('doe-pix-key').textContent=d.ong.pix||'Chave não cadastrada';
+  document.getElementById('doe-pix-area').style.display='';
+  document.getElementById('doe-ok').textContent=`💚 Obrigado! Prepare R$${v.toFixed(2)} via PIX abaixo.`;
+  document.getElementById('doe-ok').style.display='';
+}
+function copiarPix(){
+  const txt=document.getElementById('doe-pix-key').textContent;
+  navigator.clipboard.writeText(txt).then(()=>alert('Chave PIX copiada!'));
+}
+
+// ─── GALERIA ───
+function renderGaleria(){
+  const el=document.getElementById('gal-grid');
+  el.innerHTML=galeria.map((g,i)=>`
+    <div class="gal-c">
+      <div class="gal-img">${g.foto?`<img src="${g.foto}"/>`:'🐾'}</div>
+      <div class="gal-info"><h4>${g.nome}</h4><p>"${g.msg}"</p><p style="margin-top:4px;font-size:10px;color:#aaa">— ${g.autor}</p></div>
+    </div>`).join('');
+  const addArea=document.getElementById('gal-add-area');
+  if(U&&U.tipo==='adotante'&&(U.adotados||[]).length>0){
+    addArea.innerHTML=`<button class="btn-L" style="width:auto;padding:10px 22px" onclick="document.getElementById('mo-gal').classList.add('ab')">📸 Enviar minha foto</button>`;
+  }else if(U){
+    addArea.innerHTML=`<p style="font-size:13px;color:#aaa">Adote um animal pelo PatinhasLar para poder compartilhar na galeria!</p>`;
+  }else{
+    addArea.innerHTML=`<button class="btn-c" onclick="abrirLogin()">Entre para enviar sua foto</button>`;
+  }
+}
+function prevGal(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const img=document.getElementById('gal-prev');
+    img.src=e.target.result;img.style.display='block';
+    document.getElementById('gal-up-ph').style.display='none';
+  };r.readAsDataURL(f);
+}
+function salvarGal(){
+  const nome=document.getElementById('gal-nome').value.trim();
+  const msg=document.getElementById('gal-msg').value.trim();
+  const foto=document.getElementById('gal-prev').src||'';
+  if(!nome){document.getElementById('gal-err').textContent='Informe o nome do pet.';return;}
+  galeria.unshift({nome,msg:msg||'Meu novo melhor amigo!',autor:U.nome,foto:foto.startsWith('data:')?foto:''});
+  fM('mo-gal');renderGaleria();
+}
+
+// ─── EVENTOS ───
+function renderEventos(){
+  const el=document.getElementById('eventos-lista');
+  el.innerHTML=EVENTOS.map(e=>`
+    <div class="ev-c" style="margin-bottom:14px">
+      <div class="ev-data"><div class="dia">${e.dia}</div><div class="mes">${e.mes}</div></div>
+      <div class="ev-info">
+        <h4>${e.titulo}</h4>
+        <p>${e.desc}</p>
+        <p style="font-size:12px;color:#888;margin-top:4px">📍 ${e.local}</p>
+        <span class="ev-tag">${e.tag}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ─── PERFIS ───
+function renderPfD(){
+  const av=document.getElementById('av-d');
+  av.innerHTML=U.foto?`<img src="${U.foto}"/>`:(U.nome.charAt(0).toUpperCase());
+  document.getElementById('pf-d-nome').textContent=U.nome;
+  document.getElementById('info-d').innerHTML=`
+    <div class="il"><span class="lb">Nome</span><span class="vl">${U.nome}</span></div>
+    <div class="il"><span class="lb">E-mail</span><span class="vl">${U.em}</span></div>
+    <div class="il"><span class="lb">Idade</span><span class="vl">${U.idade} anos</span></div>
+    <div class="il"><span class="lb">Tipo</span><span class="vl">Doador</span></div>
+    <div class="il"><span class="lb">Membro desde</span><span class="vl">${U.desde}</span></div>`;
+  renderNotifs();
+  renderChatLista('d');
+  const res=document.getElementById('ong-resumo');
+  if(U.ong){
+    res.innerHTML=`
+      <div class="il"><span class="lb">ONG</span><span class="vl">${U.ong.nome}</span></div>
+      <div class="il"><span class="lb">Local</span><span class="vl">${U.ong.local}</span></div>
+      <div class="il"><span class="lb">Horário</span><span class="vl">${U.ong.hor}</span></div>
+      <div class="il"><span class="lb">PIX</span><span class="vl">${U.ong.pix||'Não cadastrado'}</span></div>
+      <div class="il"><span class="lb">Animais</span><span class="vl">${(U.animais||[]).length}</span></div>`;
+  }else{
+    res.innerHTML=`<p style="color:#aaa;font-size:13px">Nenhuma ONG ainda. <button class="btn-c" onclick="abrirOng()" style="margin-left:6px">Cadastrar</button></p>`;
+  }
+}
+function renderPfA(){
+  const av=document.getElementById('av-a');
+  av.innerHTML=U.foto?`<img src="${U.foto}"/>`:(U.nome.charAt(0).toUpperCase());
+  document.getElementById('pf-a-nome').textContent=U.nome;
+  document.getElementById('info-a').innerHTML=`
+    <div class="il"><span class="lb">Nome</span><span class="vl">${U.nome}</span></div>
+    <div class="il"><span class="lb">E-mail</span><span class="vl">${U.em}</span></div>
+    <div class="il"><span class="lb">Idade</span><span class="vl">${U.idade} anos</span></div>
+    <div class="il"><span class="lb">Tipo</span><span class="vl">Adotante</span></div>
+    <div class="il"><span class="lb">Membro desde</span><span class="vl">${U.desde}</span></div>`;
+  // Favoritos
+  const favs=U.favs||[];
+  const fvEl=document.getElementById('fav-lista');
+  const fvVz=document.getElementById('fav-vazio');
+  if(favs.length===0){fvEl.innerHTML='';fvVz.style.display='';}
+  else{fvVz.style.display='none';fvEl.innerHTML=favs.map((f,i)=>`
+    <div class="fav-c">
+      <button class="fav-rm" onclick="rmFav(${i})">✕</button>
+      <div class="em">${emojiE(f.esp)}</div>
+      <h4>${f.nome}</h4><p>${f.ong}</p>
+    </div>`).join('');}
+  // Adotados
+  const ads=U.adotados||[];
+  const adEl=document.getElementById('adot-lista');
+  const adVz=document.getElementById('adot-vazio');
+  if(ads.length===0){adEl.innerHTML='';adVz.style.display='';}
+  else{adVz.style.display='none';adEl.innerHTML=ads.map(a=>`
+    <div class="ad-c"><div class="em">${emojiE(a.esp)}</div><h4>${a.nome}</h4><p>via ${a.ong}</p></div>`).join('');}
+  renderChatLista('a');
+}
+function rmFav(i){U.favs.splice(i,1);renderPfA();}
+
+// ─── QUIZ ───
+const QPS=[
+  {p:'Qual é o seu estilo de vida?',os:[{t:'🏃 Muito ativo',v:'ativo'},{t:'🏠 Fico muito em casa',v:'caseiro'},{t:'⚖️ Equilibrado',v:'eq'}]},
+  {p:'Qual o espaço da sua casa?',os:[{t:'🏡 Casa com quintal',v:'grande'},{t:'🏢 Apartamento grande',v:'medio'},{t:'🚪 Apartamento pequeno',v:'peq'}]},
+  {p:'Quanto tempo por dia para o pet?',os:[{t:'⏱ Pouco (1-2h)',v:'pouco'},{t:'⏰ Moderado (3-4h)',v:'medio'},{t:'🕐 Muito (5h+)',v:'muito'}]},
+  {p:'Como prefere a personalidade?',os:[{t:'🤗 Carinhoso e grudento',v:'car'},{t:'😎 Independente',v:'ind'},{t:'🎉 Brincalhão e animado',v:'brinc'}]},
+];
+let qRs=[],qAt=0;
+function initQuiz(){qAt=0;qRs=[];document.getElementById('quiz-res').style.display='none';document.getElementById('qver').style.display='none';renderQ();}
+function renderQ(){
+  const q=QPS[qAt];
+  document.getElementById('quiz-c').innerHTML=`
+    <p style="font-size:12px;color:#aaa;margin-bottom:5px">Pergunta ${qAt+1} de ${QPS.length}</p>
+    <h3 style="font-size:17px;font-weight:700;color:var(--LE);margin-bottom:.9rem">${q.p}</h3>
+    <div class="g4">${q.os.map(o=>`<div class="qopt ${qRs[qAt]===o.v?'sel':''}" onclick="selQ('${o.v}',this)">${o.t}</div>`).join('')}</div>`;
+  document.getElementById('qprev').style.display=qAt>0?'':'none';
+  document.getElementById('qnext').style.display=qAt<QPS.length-1?'':'none';
+}
+function selQ(v,el){qRs[qAt]=v;document.querySelectorAll('.qopt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');if(qAt===QPS.length-1)showQRes();}
+function qNext(){if(!qRs[qAt]){alert('Selecione uma opção!');return;}qAt++;renderQ();}
+function qPrev(){qAt--;renderQ();}
+function showQRes(){
+  const r=document.getElementById('quiz-res');
+  const ind=qRs.includes('ind'),caseiro=qRs.includes('caseiro'),peq=qRs.includes('peq'),ativo=qRs.includes('ativo');
+  let t,d;
+  if(ind||caseiro){t='🐱 Um gato combina com você!';d='Independente, tranquilo e adaptável. Gatos são perfeitos para quem prefere uma companhia mais calma e discreta.';}
+  else if(ativo&&!peq){t='🐕 Um cão de porte médio ou grande é ideal!';d='Você tem energia e espaço! Um Labrador, Border Collie ou SRD de porte médio vai adorar suas aventuras.';}
+  else{t='🐶 Um cão de pequeno porte é perfeito!';d='Com equilíbrio e espaço moderado, um cãozinho menor vai se adaptar lindamente. Poodle, Shih-Tzu ou SRD pequenino!';}
+  r.innerHTML=`<h4>${t}</h4><p>${d}</p>`;r.style.display='';
+  document.getElementById('qver').style.display='';document.getElementById('qnext').style.display='none';
+}
+
+// ─── FECHAR MODAL CLICANDO FORA ───
+document.querySelectorAll('.mo').forEach(el=>{el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('ab');});});
+</script>
+</body>
+</html>
