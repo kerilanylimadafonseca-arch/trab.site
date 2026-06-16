@@ -270,10 +270,10 @@ nav{background:#fff;border-bottom:2px solid var(--L);padding:0 1.5rem;height:60p
     </div>
   </div>
   <div class="stats">
-    <div class="stat"><div class="stat-n">142</div><div class="stat-l">Animais adotados</div></div>
-    <div class="stat"><div class="stat-n">28</div><div class="stat-l">Disponíveis agora</div></div>
-    <div class="stat"><div class="stat-n">12</div><div class="stat-l">ONGs parceiras</div></div>
-    <div class="stat"><div class="stat-n">5</div><div class="stat-l">Anos de história</div></div>
+  <div class="stat-n" id="stat-adotados">0</div><div class="stat-l">Animais adotados</div>
+<div class="stat-n" id="stat-disponiveis">0</div><div class="stat-l">Disponíveis agora</div>
+<div class="stat-n" id="stat-ongs">0</div><div class="stat-l">ONGs parceiras</div>
+<div class="stat-n">5</div><div class="stat-l">Anos de história</div>
   </div>
   <div class="sec-alt">
     <div class="sec-t">🏠 Quem Somos</div><div class="div"></div>
@@ -301,11 +301,11 @@ nav{background:#fff;border-bottom:2px solid var(--L);padding:0 1.5rem;height:60p
     </div>
   </div>
   <div class="sec">
-    <div class="sec-t">🌟 Histórias de Adoção</div><div class="div"></div>
+    <div class="sec-t">🌟 Histórias de animais que sofreram</div><div class="div"></div>
     <div class="g3">
-      <div class="ch"><div class="eg">🐶</div><h4>Princesa encontrou seu lar</h4><p>"Uma menina de 9 anos encontrou uma cadela abandonada amarrada em uma sacola. A família resgatou e adotou, chamando-a de Princesa." – <strong>Ana Clara</strong></p></div>
-      <div class="ch"><div class="eg">🐱</div><h4>Rajado: do hospital ao sofá</h4><p>"O gato Rajado ficou abandonado no HVU após se recuperar. A foto dele 'chorando' viralizou e dezenas se candidataram para adotá-lo." – <strong>Rafael M.</strong></p></div>
-      <div class="ch"><div class="eg">🐕</div><h4>Thor e os novos amigos</h4><p>"Adotamos o Thor para o nosso filho. Ele acabou fazendo companhia pra família inteira. Melhor decisão da nossa vida." – <strong>Família Sousa</strong></p></div>
+      <div class="ch"><div class="eg">🐶🐱</div><h4>Relatos de abandono</h4><p>"Ah, as pessoas que criam animais, como gato ou cachorro que são fêmeas normalmente quando engravidam elas abandonam nas matas. Foi o caso que eu vi quando voltava pra casa, uma gata com 3 filhotinhos" – <strong>Gabriele Silva</strong></p></div>
+      <div class="ch"><div class="eg">🐶</div><h4>Caso Orelha</h4><p>"O caso do cão comunitário Orelha comoveu moradores e ganhou repercussão nacional. O animal era cuidado pela comunidade da Praia Brava, em Florianópolis. No início de janeiro, ele foi encontrado gravemente ferido e, apesar dos esforços para salvá-lo, não sobreviveu.As investigações indicam que Orelha pode ter sido vítima de agressão, e a polícia apura a possível participação de adolescentes no ocorrido. Em reportagem exibida pelo programa Fantástico, foram mostradas imagens do último passeio do cachorro pela praia onde vivia. A matéria também ouviu as pessoas envolvidas no resgate e no atendimento do animal."  <strong></strong></p></div>
+      <div class="ch"><div class="eg">🐕</div><h4>Canil clandestino é fechado em Florianópolis e 24 cães são resgatados</h4><p>"A Polícia Civil de Santa Catarina interditou um canil clandestino localizado no bairro Ratones, em Florianópolis. Durante a operação, 24 cães da raça border collie foram encontrados em situação de abandono e maus-tratos. O responsável pelo local foi preso em flagrante pelos crimes de maus-tratos a animais e fraude processual.As investigações revelaram que os cães viviam em ambientes inadequados, com pouco espaço, falta de higiene, ausência de proteção e acesso insuficiente à água e alimentação. Os animais também eram mantidos por cercas elétricas, em condições consideradas incompatíveis com o bem-estar animal.Além disso, foi constatado que filhotes eram comercializados mesmo apresentando problemas de saúde. Muitos estavam infestados por vermes e viviam em condições precárias, sem os cuidados veterinários necessários.Antes da operação, a Diretoria de Bem-Estar Animal (Dibea) já havia realizado uma vistoria no local e orientado o proprietário a corrigir as irregularidades. No entanto, durante uma nova fiscalização, verificou-se que as condições permaneciam inadequadas e que os animais continuavam sem a assistência mínima necessária.Após o resgate, os cães foram encaminhados para atendimento médico-veterinário e permanecerão sob cuidados especializados até estarem aptos para adoção responsável." – <strong>Família Sousa</strong></p></div>
     </div>
   </div>
   <div class="sec-alt">
@@ -652,9 +652,11 @@ function ir(p){
             'eventos':'pag-eventos','galeria':'pag-galeria',
             'perfil':U?(U.tipo==='doador'?'pag-pf-d':'pag-pf-a'):'pag-inicio'};
   const mn={'inicio':'bn-i','projetos':'bn-p','eventos':'bn-ev','galeria':'bn-gal','quiz':'bn-q'};
+   
   if(p==='perfil'&&!U){abrirLogin();return;}
   document.getElementById(mp[p]||'pag-inicio').classList.add('at');
   if(mn[p])document.getElementById(mn[p]).classList.add('at');
+   if(p==='inicio')atualizarStats();
   if(p==='projetos')renderProj();
   if(p==='quiz')initQuiz();
   if(p==='eventos')renderEventos();
@@ -1269,6 +1271,20 @@ function showQRes(){
 
 // ─── FECHAR MODAL CLICANDO FORA ───
 document.querySelectorAll('.mo').forEach(el=>{el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('ab');});});
+
+
+function atualizarStats() {
+  const doadores = Object.values(contas).filter(c => c.tipo === 'doador' && c.ong);
+  const todosAnimais = doadores.flatMap(d => d.animais || []);
+  
+  document.getElementById('stat-adotados').textContent = 
+    todosAnimais.filter(a => a.status === 'adotado').length;
+  document.getElementById('stat-disponiveis').textContent = 
+    todosAnimais.filter(a => a.status === 'disponivel').length;
+  document.getElementById('stat-ongs').textContent = doadores.length;
+}
+
+  
 </script>
 </body>
 </html>
